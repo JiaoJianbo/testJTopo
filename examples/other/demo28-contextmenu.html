@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>右键菜单</title>
+		<style type="text/css">
+		#contextmenu {
+			border: 1px solid #aaa;
+			border-bottom: 0;
+			background: #fff;
+			position: absolute;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: none;
+		}
+																				   
+		#contextmenu li a {
+			font: 12px 'Microsoft YaHei';
+			display: block;
+			padding: 10px;
+			border-bottom: 1px solid #aaa;
+			cursor: pointer;
+		}
+																				   
+		#contextmenu li a:hover {
+			background: #ccc;
+		}
+		</style>
+				
+		<script type="text/javascript" src="../../lib/jtopo-0.4.6-min.js"></script>
+		
+		<script type="text/javascript" src="../../lib/jquery-1.6.4-min.js"></script>
+	</head>
+	
+	<body>
+		<canvas id="canvas" width="800px" height="600px"></canvas>
+		
+		<ul id="contextmenu" style="display:none">
+			<li><a>顺时针旋转</a></li>
+			<li><a>逆时针旋转</a></li>
+			<li><a>更改颜色</a></li>
+			<li><a>放大</a></li>
+			<li><a>缩小</a></li>
+			<li><a>删除该节点</a></li>
+		</ul>
+		
+		<script type="text/javascript">
+			var canvas = document.getElementById("canvas");
+			var stage = new JTopo.Stage(canvas);
+			
+			var scene = new JTopo.Scene(stage);
+			scene.background = "../../images/bg.png";
+			
+			var node = new JTopo.Node("右键菜单");
+			node.setBound(200, 200, 30, 30);
+			
+			scene.add(node);
+			
+			node.mouseup(function(event){//这里用mouseup事件，不要用mousedown事件
+				
+				if(event.button == 2){//右键
+					$("#contextmenu").css({
+						top: event.pageY,
+						left: event.pageX
+					}).show();
+				}
+				
+			});
+			
+			
+			stage.click(function(event){
+				if(event.button == 0){//左键
+					$("#contextmenu").hide();
+				}
+			});
+			
+			
+			
+			var currentNode = node;
+			
+			$("#contextmenu a").click(function(){
+				var text = $(this).text();
+				//console.info(text);
+				if(text == '删除该节点'){
+					scene.remove(currentNode);
+					currentNode = null;
+				}else{
+					currentNode.save();
+				}
+				
+
+				if(text == '更改颜色'){
+                    currentNode.fillColor = JTopo.util.randomColor();
+                }else if(text == '顺时针旋转'){
+                    currentNode.rotate += 0.5;
+                }else if(text == '逆时针旋转'){
+                    currentNode.rotate -= 0.5;
+                }else if(text == '放大'){
+                    currentNode.scaleX += 0.2;
+                    currentNode.scaleY += 0.2;
+                }else if(text == '缩小'){
+                    currentNode.scaleX -= 0.2;
+                    currentNode.scaleY -= 0.2;
+                }
+				
+                $("#contextmenu").hide();
+			});
+			
+		</script>
+	</body>
+</html>		

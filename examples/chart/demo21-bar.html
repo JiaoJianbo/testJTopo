@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>柱状图</title>
+		<script type="text/javascript" src="../../lib/jtopo-0.4.6-min.js"></script>
+	</head>
+	
+	<body>
+		<canvas id="canvas" width="800px" height="600px"></canvas>
+		
+		
+		<script type="text/javascript">
+			var canvas = document.getElementById("canvas");
+			var stage = new JTopo.Stage(canvas);
+			
+			var scene = new JTopo.Scene(stage);
+			scene.background = "../../images/bg.png";
+			
+			
+			function randomColor(){
+				var c = JTopo.util.randomColor();
+				return "rgb(" + c + ")";
+			}
+			
+			var barNode = new JTopo.BarChartNode();
+			barNode.setLocation(200, 150);
+			barNode.width = 400;
+			barNode.height = 300;
+			
+			barNode.datas = [140, 179, 222, 160, 289];
+			barNode.titles = ["2009", "2010", "2011", "2012", "2013"];
+			barNode.colors = [randomColor(), randomColor(), randomColor(), randomColor(), randomColor()];
+		
+			scene.add(barNode);
+			
+			
+			function ff(){
+				if(barNode.datas[3]++ > 250){
+					return;
+				}
+				
+				setTimeout(ff, 50);
+			}
+			ff();
+		</script>
+	</body>
+</html>

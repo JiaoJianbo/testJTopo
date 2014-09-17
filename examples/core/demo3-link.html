@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>连线 / 连线组</title>
+		<script type="text/javascript" src="../../lib/jtopo-0.4.6-min.js"></script>
+	</head>
+	
+	<body>
+		<canvas id="canvas" width="800px" height="600px"></canvas>
+		
+		
+		<script type="text/javascript">
+			var canvas = document.getElementById("canvas");
+			var stage = new JTopo.Stage(canvas);
+			
+			var scene = new JTopo.Scene(stage);
+			scene.background = "../../images/bg.png";
+			
+			//节点
+			function newNode(x, y, width, height, text){
+				var node = new JTopo.Node(text);
+				//node.setLocation(x,y);
+				node.setBound(x,y,width,height);
+				scene.add(node);
+				return node;
+			}
+			
+			//普通连线
+			function newLink(nodeFrom, nodeTo, text, dashedPattern){
+				var link = new JTopo.Link(nodeFrom, nodeTo, text);
+				link.dashedPattern = dashedPattern;// 虚线
+				link.textOffsetY = 3;
+				link.strokeColor = JTopo.util.randomColor();
+				//link.bundleOffset = 60; // 折线拐角处的长度
+				link.bundleGap = 20; // 线条之间的间隔（两点之间多条连线时才起作用）
+				
+				scene.add(link);
+				return link;
+			}
+			
+			
+			var from1 = newNode(30,50, 10,10, "from1");
+			var to1 = newNode(230,50, 10,10, "to1");
+			var link1 = newLink(from1, to1, "dashed link",2);
+		
+		
+			var from2 = newNode(30,90, 10,10, "from2");
+			from2.borderRadius = 5;
+			var to2 = newNode(230,90, 10,10, "to2");
+			var link2 = newLink(from2, to2, "arrows link");
+			link2.arrowsRadius = 8;
+			
+			
+			var fn = newNode(30,160, 20,20, "fn");
+			fn.borderRadius = 5;
+			var tn = newNode(230,300, 10,10, "tn");
+			tn.borderRadius = 5;
+			
+			for(var i=1; i<=5; i++){
+				newLink(fn, tn, "Link_"+i, ((i%2==0) ? null : 2));
+			}
+			
+			
+			
+			// 折线
+			function newFoldLink(nodeFrom, nodeTo, text, direction, dashedPattern){
+				var link = new JTopo.FoldLink(nodeFrom, nodeTo, text);
+				
+				link.direction =  direction || "horizontal";
+				link.dashedPattern = dashedPattern;
+				link.arrowsRadius = 15;
+				link.textOffsetY = 3;
+				link.bundleOffset = 60; // 折线拐角处的长度
+                link.bundleGap = 20; // 线条之间的间隔
+                link.strokeColor = JTopo.util.randomColor();
+				
+				scene.add(link);
+				return link;
+			}
+			
+			var from3 = newNode(30,350, 20,20, "from3");
+			var to3 = newNode(230,500, 20,20, "to3");
+			var link3 = newFoldLink(from3, to3, "Fold Link");
+			var link4 = newFoldLink(from3, to3, "Fold Link", "vertical", 3);
+			
+			
+			
+			// 二次折线
+			function newFlexionalLink(nodeFrom, nodeTo, text, direction, dashedPattern){
+				var link = new JTopo.FlexionalLink(nodeFrom, nodeTo, text);
+				
+				link.direction =  direction || "horizontal";
+				link.dashedPattern = dashedPattern;
+				link.textOffsetY = 10;
+				link.strokeColor = JTopo.util.randomColor();
+				link.bundleGap = 15;
+				
+				scene.add(link);
+				return link;
+			}
+			
+			var from4 = newNode(400,50, 20,20, "from4");
+			var to4 = newNode(500,250, 20,20, "to4");
+			var link5 = newFlexionalLink(from4, to4, "Flexional Link");
+			var link6 = newFlexionalLink(from4, to4, "dashed Fx Link", "vertical", 3);
+			link6.textOffsetX = 40;
+			link6.textOffsetY = 30;
+		
+		
+		
+			//曲线
+			function newCurveLink(nodeFrom, nodeTo, text, dashedPattern){
+				var link = new JTopo.CurveLink(nodeFrom, nodeTo, text);
+				
+				//link.dashedPattern = dashedPattern;//曲线没有虚线属性
+				link.textOffsetY = 5;
+				link.strokeColor = JTopo.util.randomColor();
+				
+				scene.add(link);
+				return link;
+			}
+			
+			var from5 = newNode(600,50, 20,20, "from5");
+			var to5 = newNode(720,250, 20,20, "to5");
+			var link7 = newCurveLink(from5, to5, "curve link");
+			link7.direction = "horizontal";
+		
+		
+			var center1 = newNode(450,370, 20,20, "center1");
+			var link8 = newCurveLink(center1, center1, "loop");
+		
+			var center2 = newNode(450,500, 20,20, "center2");
+			center2.borderRadius = 5;
+			var link8 = newLink(center2, center2, "loop");
+			link8.bundleGap = 30;
+			
+			
+			
+			var center3 = newNode(680,450, 20,20, "center3");
+			for(var i=1; i<=3; i++){
+				newLink(center3, center3, "L"+i, ((i%2==0) ? null : 2));//曲线没有虚线
+			}
+		</script>
+	</body>
+</html>

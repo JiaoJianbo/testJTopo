@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>容器分组</title>
+		<script type="text/javascript" src="../../lib/jtopo-0.4.6-min.js"></script>
+	</head>
+	
+	<body>
+		<canvas id="canvas" width="800px" height="600px"></canvas>
+		
+		<script type="text/javascript">
+			var canvas = document.getElementById("canvas");
+			var stage = new JTopo.Stage(canvas);
+			
+			var scene = new JTopo.Scene(stage);
+			scene.background = "../../images/bg.png";
+			
+			 // 不指定布局的时候，容器的布局为自动(容器边界随元素变化）
+			var container1 = new JTopo.Container("边界自动变化");
+			
+			container1.textPosition = "Bottom_Center";
+			container1.font = "16px 微软雅黑";
+			container1.fontColor = JTopo.util.randomColor();
+			container1.borderRadius = 15;
+			container1.borderColor = "255,255,255";
+			
+			scene.add(container1);
+			
+			
+			for(var i=1; i<5; i++){
+				var node = new JTopo.Node("N" + i);
+				node.setLocation(400 + 200*Math.random(), 300 + 200*Math.random());
+				node.textPosition = "Middle_Center";
+				
+				//scene和container都要add node
+				container1.add(node);
+				scene.add(node);
+			}
+			
+			scene.add(new JTopo.Link(container1.childs[0], container1.childs[1]));
+			scene.add(new JTopo.Link(container1.childs[2], container1.childs[3]));
+			
+			
+			// 流式布局（水平、垂直间隔均为10)
+			var flowLayout = new JTopo.layout.FlowLayout(10, 10);	
+			
+			// 网格布局(4行3列)
+			var gridLayout = new JTopo.layout.GridLayout(4, 3);
+			
+			var container2 = new JTopo.Container("点击切换布局");
+			container2.textPosition = "Bottom_Center";
+			container2.fillColor = "255,0,0";
+			container2.setBound(50,50, 300, 200);
+			container2.layout = flowLayout;
+			container2.font = "16px 微软雅黑";
+			container2.fontColor = JTopo.util.randomColor();
+			scene.add(container2);
+			
+			for(var i=0; i<4; i++){
+				for(var j=0; j<3; j++){
+					var node = new JTopo.Node(i + "-" + j);
+					node.setBound(50 + i*50, 50 + j*50, 20, 20);
+					
+					container2.add(node);
+					scene.add(node);
+				}
+			}
+			
+			container2.addEventListener("click", function(event){
+				if(this.layout === flowLayout){
+					this.layout = gridLayout;
+				}else{
+					this.layout = flowLayout;
+				}
+				
+			});
+		</script>
+	</body>
+</html>		

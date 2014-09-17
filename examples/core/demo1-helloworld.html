@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Hello World</title>
+		<!-- 
+		<script type="text/javascript" src="../../lib/jquery-1.6.4-min.js"></script>
+		-->
+		<script type="text/javascript" src="../../lib/jtopo-0.4.6-min.js"></script>
+		
+		<script type="text/javascript">
+			//$(function(){
+				
+			//});
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas" width="800px" height="600px"></canvas>
+		
+		
+		<script type="text/javascript">
+			
+			var canvas = document.getElementById("canvas");
+			var stage = new JTopo.Stage(canvas);
+
+			
+			var scene = new JTopo.Scene(stage);
+			scene.background = "../../images/bg.png";
+				
+			var node = new JTopo.Node("HelloWorld");
+			node.setLocation(380, 280);
+			scene.add(node);
+				
+			node.click(function(){
+				console.log("click node...");
+				
+			});
+			
+			node.dbclick(function(){
+				console.log("dbclick node...");
+			});
+			
+			node.mousedown(function(event){
+				if(event.button == 0){
+					node.text = "按下左键";
+				}else if(event.button == 1){
+					node.text = "按下中键";
+				}else if(event.button == 2){
+					node.text = "按下右键";
+				}
+				
+			});
+			
+			node.mouseup(function(){
+				node.text = "HelloWorld";
+			});
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>模拟gif动画</title>
+		<script type="text/javascript" src="../../lib/jtopo-0.4.6-min.js"></script>
+	</head>
+	
+	<body>
+		<canvas id="canvas" width="800px" height="600px"></canvas>
+		
+		<script type="text/javascript">
+			var canvas = document.getElementById("canvas");
+			var stage = new JTopo.Stage(canvas);
+			
+			var scene = new JTopo.Scene(stage);
+			scene.background = "../../images/bg.png";
+			
+			 // 1行4列，1000毫秒播放一轮，行偏移量
+			var sprite = new JTopo.AnimateNode("../../images/caizhu.png", 1, 4, 1000, 0);
+			sprite.setBound(100, 100, 90, 88);
+			sprite.repeatPlay = true;
+			sprite.play();
+			
+			//console.info(sprite);
+			scene.add(sprite);
+			
+			
+
+			for(var i=1; i<4; i++){
+				var sprite1 = new JTopo.AnimateNode("../../images/caizhu.png", 1, 4, 1000, i);
+				sprite1.setBound(100 + i*150, 100 + i*100, 90, 88);
+				sprite1.repeatPlay = true;
+				sprite1.play();
+				
+				scene.add(sprite1);
+			}
+
+		</script>
+	</body>
+</html>		

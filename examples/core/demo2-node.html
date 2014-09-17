@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>节点</title>
+		<script type="text/javascript" src="../../lib/jtopo-0.4.6-min.js"></script>
+	</head>
+	
+	<body>
+		<canvas id="canvas" width="800px" height="600px"></canvas>
+		
+		<script type="text/javascript">
+			var canvas = document.getElementById("canvas");
+			var stage = new JTopo.Stage(canvas);
+			
+			var scene = new JTopo.Scene(stage);
+			scene.background = "../../images/bg.png";
+			scene.dragable = false;
+			
+			var node1 = new JTopo.Node("微软雅黑");			
+			scene.add(node1);
+			node1.setLocation(200,200);
+			node1.font = "14px Microsoft YaHei";
+			node1.fontColor = "0,0,0";
+			node1.textOffsetY = 5;//文字下移5px
+			node1.borderRadius = 5;//圆角
+			
+			
+			
+			var appleNode = new JTopo.Node();
+			appleNode.setImage("../../images/OS_Apple.png", true);
+			appleNode.setLocation(280,150);
+			appleNode.showSelected = false;
+			appleNode.dragable = false;
+			scene.add(appleNode);
+			
+			
+			var txtNode = new JTopo.TextNode("尼玛还有TextNode ?");
+			txtNode.setLocation(200, 300);
+			txtNode.font = "bold 16px FangSong";
+			txtNode.fontColor = "255,0,0";
+			scene.add(txtNode);
+			
+			
+			var linkNode = new JTopo.LinkNode("Wocao,又出一个LinkNode");
+			linkNode.setLocation(200,400);
+			linkNode.href = "http://www.jtopo.com/demo/node.html";
+			linkNode.target = "_blank";
+			linkNode.font = "italic 14px 微软雅黑";
+			linkNode.visitedColor = "0,255,0";
+			linkNode.shadow = true;
+			linkNode.shadowOffsetX = 15;
+			linkNode.shadowOffsetY = 15;
+			linkNode.shadowColor = "30,30,30";
+			scene.add(linkNode);
+			
+			
+			var circleNode = new JTopo.CircleNode("日本");
+			circleNode.setLocation(500,200);
+			circleNode.radius = 30;
+			circleNode.textOffsetY = 5;
+			circleNode.fillColor = "255,0,0";
+			scene.add(circleNode);
+			
+			
+			var custNode = new JTopo.Node("自定义");
+			custNode.setLocation(500, 400);
+			custNode.paint = function(ctx){
+				ctx.beginPath();
+				//ctx.moveTo(0,0);
+				ctx.arc(0,0,40,0, Math.PI, true);
+				ctx.closePath();
+				ctx.fillStyle = "rgba(255,255,0, 0.8)";
+				ctx.fill();
+				
+				ctx.save();
+				ctx.beginPath();
+				ctx.moveTo(0,0);
+				ctx.arc(0,0,60,0, Math.PI*1.5, false);
+				ctx.fillStyle = "rgba(0,255,255, 0.5)";
+				ctx.lineTo(0,0);
+				ctx.closePath();
+				ctx.fill();
+				ctx.restore();
+				this.paintText(ctx);//显示文字
+			};
+			scene.add(custNode);
+			
+			
+			
+			var scene2 = new JTopo.Scene(stage);
+			scene2.backgroundColor = "123,12,221";
+			scene2.areaSelect = true;
+			
+			var txtNode2 = new JTopo.TextNode("尼玛还有TextNode ?");
+			txtNode2.setLocation(600, 300);
+			txtNode2.font = "bold 16px FangSong";
+			txtNode2.fontColor = "255,0,255";
+			scene2.add(txtNode2);
+			
+			
+			var scaleX = 1;
+			var i = window.setInterval(function(){
+				//console.info("a");
+				if(scaleX > 0.3){
+					scene.zoomIn();
+				}else{
+					//console.info("zoomOUt");
+						
+					while(scaleX < 0.8){
+						scene.zoomOut();
+						scaleX = scene.scaleX;
+						
+					}
+					//console.info(scaleX);
+				}
+				scaleX = scene.scaleX;
+				
+			}, 2000);
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>饼图</title>
+		<script type="text/javascript" src="../../lib/jtopo-0.4.6-min.js"></script>
+	</head>
+	
+	<body>
+		<canvas id="canvas" width="800px" height="600px"></canvas>
+		
+		
+		<script type="text/javascript">
+			
+			var canvas = document.getElementById("canvas");
+			var stage = new JTopo.Stage(canvas);
+			
+			var scene = new JTopo.Scene(stage);
+			scene.background = "../../images/bg.png";
+			stage.add(scene);
+			
+			
+			var pieNode = new JTopo.PieChartNode();
+			pieNode.radius = 100;
+			pieNode.setLocation(300,180);
+			
+			pieNode.datas = [0.25, 0.4, 0.2, 0.15];
+			pieNode.titles = ["A", "B", "C", "D"];
+			var c1 = "rgb(" + JTopo.util.randomColor() + ")";
+			//console.info(c1);
+			var c3 = "rgb(" + JTopo.util.randomColor() + ")";
+			var c4 = "rgb(" + JTopo.util.randomColor() + ")";
+			pieNode.colors = [c1, "#3224d2", c3, c4];
+			
+			
+			function ff(n){
+				if(n > 20){
+					bb(1);
+					return;
+				}
+				
+				pieNode.datas[1] -= 0.01;
+				pieNode.datas[2] += 0.01;
+				
+				window.setTimeout(function(){
+					ff(n+1);
+				}, 200);
+			}
+			
+			
+						
+			function bb(n){
+				if(n > 20){
+					ff(1);
+					return;
+				}
+				
+				pieNode.datas[2] -= 0.01;
+				pieNode.datas[1] += 0.01;
+				
+				window.setTimeout(function(){
+					bb(n+1);
+				}, 200);
+			}
+			
+			
+			ff(1);
+			
+			scene.add(pieNode);
+			
+		</script>
+	</body>
+</html>
