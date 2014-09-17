@@ -4,6 +4,8 @@
 
 本示例参照[JTopo](http://www.jtopo.com/demo/helloworld.html)官方示例。
 
+本Project是使用 [Aptana Studio 3](http://www.aptana.com/products/studio3/) 创建的。
+
 ----------
 
 由于JTopo官网尚在逐步完善，有很多API的使用还没有被整理出来，以下的API的用法是通过JTopo Demo中的代码整理出来的。
